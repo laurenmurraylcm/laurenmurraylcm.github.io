@@ -18,20 +18,9 @@ summary(iris) ## Sepal.Length Sepal.Width Petal.Length Petal.Width ## Min. :4.30
     </item>
     
     <item>
-      <title>Hello R Markdown</title>
-      <link>/post/2015/07/23/hello-r-markdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/post/2015/07/23/hello-r-markdown/</guid>
-      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
-    </item>
-    
-    <item>
       <title>Project 1</title>
       <link>/project/project1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
       
       <guid>/project/project1/</guid>
       <description>Introduction  I have combined 4 data sets for this project. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population, deaths due to terrorist attacks, banking crisis incidence, and number of vehicles produced in a year. I chose these data sets to analyze the correlation between all of these variables over time and in different countries.</description>
@@ -40,10 +29,39 @@ summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
     <item>
       <title>Project 2: Modeling, Testing, and Predicting</title>
       <link>/project/project2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
       
       <guid>/project/project2/</guid>
       <description>Introduction I have combined data sets for this project. I used these 3 data sets for Project 1 as well. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population(number of people in country), banking crisis incidence(binary), and number of vehicles produced in a year. I again chose these data sets to analyze the correlation between all of these variables over time and in different countries.</description>
+    </item>
+    
+    <item>
+      <title>Project 2: Modeling, Testing, and Predicting</title>
+      <link>/project/project2.knit/</link>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project2.knit/</guid>
+      <description>Introduction *I have combined data sets for this project. I used these 3 data sets for Project 1 as well. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population(number of people in country), banking crisis incidence(binary), and number of vehicles produced in a year. I again chose these data sets to analyze the correlation between all of these variables over time and in different countries.</description>
+    </item>
+    
+    <item>
+      <title>Project 2: Modeling, Testing, and Predicting</title>
+      <link>/project/project2.utf8/</link>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project2.utf8/</guid>
+      <description>Introduction *I have combined data sets for this project. I used these 3 data sets for Project 1 as well. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population(number of people in country), banking crisis incidence(binary), and number of vehicles produced in a year. I again chose these data sets to analyze the correlation between all of these variables over time and in different countries.</description>
+    </item>
+    
+    <item>
+      <title>Hello R Markdown</title>
+      <link>/post/2015/07/23/hello-r-markdown/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/post/2015/07/23/hello-r-markdown/</guid>
+      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
     </item>
     
     <item>

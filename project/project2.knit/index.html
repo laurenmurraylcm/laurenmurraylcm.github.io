@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Lauren Murray" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../img/favicon.ico">
+    <title>Project 2: Modeling, Testing, and Predicting</title>
+    <meta name="generator" content="Hugo 0.83.1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../../post/">BLOG</a></li>
+        
+        <li><a href="../../projects/">PROJECTS</a></li>
+        
+        <li><a href="../../resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../../project/project2.knit/">Project 2: Modeling, Testing, and Predicting</a></strong>
+          </h3>
+        </div>
+ 
+<div class="blog-title">
+          <h4>
+         May 9, 2021 
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <h2 id="introduction">Introduction</h2>
+<p>*I have combined  data sets for this project. I used these 3 data sets for Project 1 as well. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population(number of people in country), banking crisis incidence(binary), and number of vehicles produced in a year. I again chose these data sets to analyze the correlation between all of these variables over time and in different countries. The countries that I chose to study here are France, Argentina, Australia, Belgium, Brazil, Canada, China, Germany, India, Mexico, Italy, Japan, and Spain. I am looking at statistics for these countries only in the years 1960, 1970, 1980, 1990, 1995, 2000, 2005, and 2010. From my project 1 data set I have added some years to the set and also added some countries. There are 104 observations total. These data sets came from <a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html">https://vincentarelbundock.github.io/Rdatasets/datasets.html</a> *
+<em>As I said in my last project, with the COVID-19 pandemic occurring this year I have been made aware more than ever of how one event can cause a ripple effect that alters daily life in ways that are not always expected. Along that train of thought, during my research trying to find data sets to join for Project 1 I came upon these data sets and wondered if a banking crisis would decrease car production; or be associated with a change in population; and so on and so forth. I expect that the year is a strong indicator of vehicle production as well as population. I also expect that the occurrence of a banking crisis will have a negative effect on number of cars produced and be more common in certain years.</em></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+<span style="color:#a6e22e">library</span>(dplyr)
+<span style="color:#a6e22e">library</span>(readr)
+countrypops <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;countrypops.csv&#34;</span>)
+countrypopulation<span style="color:#f92672">&lt;-</span> countrypops <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">arrange</span>(year) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;India&#34;</span><span style="color:#f92672">|</span> country_name<span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Canada&#34;</span><span style="color:#f92672">|</span>country_name<span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Germany&#34;</span><span style="color:#f92672">|</span>country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Argentina&#34;</span><span style="color:#f92672">|</span> country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Belgium&#34;</span><span style="color:#f92672">|</span> country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Brazil&#34;</span><span style="color:#f92672">|</span> country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;China&#34;</span><span style="color:#f92672">|</span>country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Australia&#34;</span><span style="color:#f92672">|</span>country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;France&#34;</span><span style="color:#f92672">|</span>country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Spain&#34;</span><span style="color:#f92672">|</span>country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Mexico&#34;</span><span style="color:#f92672">|</span>country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Italy&#34;</span><span style="color:#f92672">|</span>country_name<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Japan&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1960&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1970&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1980&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1990&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1995&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2000&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2005&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2010&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(year, country_name,country_code_2, population)<span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">rename</span>(<span style="color:#e6db74">&#34;Country&#34;</span><span style="color:#f92672">=</span>country_name, <span style="color:#e6db74">&#34;Country Code&#34;</span><span style="color:#f92672">=</span>country_code_2, <span style="color:#e6db74">&#34;Year&#34;</span><span style="color:#f92672">=</span>year)
+countrypopulation
+</code></pre></div><pre><code>## # A tibble: 104 x 4
+##     Year Country   `Country Code` population
+##    &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;               &lt;dbl&gt;
+##  1  1960 Argentina AR               20619075
+##  2  1960 Australia AU               10276477
+##  3  1960 Belgium   BE                9153489
+##  4  1960 Brazil    BR               72207554
+##  5  1960 Canada    CA               17909009
+##  6  1960 China     CN              667070000
+##  7  1960 Germany   DE               72814900
+##  8  1960 Spain     ES               30455000
+##  9  1960 France    FR               46814237
+## 10  1960 India     IN              449480608
+## # … with 94 more rows
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(readr)
+bankingCrises <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;bankingCrises.csv&#34;</span>)
+bankingcrisis<span style="color:#f92672">&lt;-</span> bankingCrises<span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">arrange</span>(year) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Algeria&#34;</span>,<span style="color:#e6db74">&#34;Angola&#34;</span>,<span style="color:#e6db74">&#34;Argentina&#34;</span>, <span style="color:#e6db74">&#34;Australia&#34;</span>,<span style="color:#e6db74">&#34;Austria&#34;</span>, <span style="color:#e6db74">&#34;Belgium&#34;</span>, <span style="color:#e6db74">&#34;Bolivia&#34;</span>, <span style="color:#e6db74">&#34;Brazil&#34;</span>, <span style="color:#e6db74">&#34;Canada&#34;</span>, <span style="color:#e6db74">&#34;CentralAfricanRep&#34;</span>,<span style="color:#e6db74">&#34;Chile&#34;</span>, <span style="color:#e6db74">&#34;China&#34;</span>, <span style="color:#e6db74">&#34;Colombia&#34;</span>,<span style="color:#e6db74">&#34;CostaRica&#34;</span>, <span style="color:#e6db74">&#34;CoteDIvoire&#34;</span>, <span style="color:#e6db74">&#34;Denmark&#34;</span>, <span style="color:#e6db74">&#34;DominicanRepublic&#34;</span>, <span style="color:#e6db74">&#34;Ecuador&#34;</span>, <span style="color:#e6db74">&#34;Egypt&#34;</span>,<span style="color:#e6db74">&#34;ElSalvador&#34;</span>,<span style="color:#e6db74">&#34;Finland&#34;</span>, <span style="color:#e6db74">&#34;France&#34;</span>, <span style="color:#e6db74">&#34;Germany&#34;</span>,<span style="color:#e6db74">&#34;Ghana&#34;</span>,<span style="color:#e6db74">&#34;Greece&#34;</span>, <span style="color:#e6db74">&#34;Guatemala&#34;</span>,<span style="color:#e6db74">&#34;Honduras&#34;</span>,<span style="color:#e6db74">&#34;Hungary&#34;</span>,<span style="color:#e6db74">&#34;Iceland&#34;</span>,<span style="color:#e6db74">&#34;India&#34;</span>, <span style="color:#e6db74">&#34;Indonesia&#34;</span>, <span style="color:#e6db74">&#34;Ireland&#34;</span>, <span style="color:#e6db74">&#34;Italy&#34;</span>,<span style="color:#e6db74">&#34;Japan&#34;</span>,<span style="color:#e6db74">&#34;Kenya&#34;</span>, <span style="color:#e6db74">&#34;Korea&#34;</span>, <span style="color:#e6db74">&#34;Malaysia&#34;</span>, <span style="color:#e6db74">&#34;Mauritius&#34;</span>, <span style="color:#e6db74">&#34;Mexico&#34;</span>, <span style="color:#e6db74">&#34;Morocco&#34;</span>, <span style="color:#e6db74">&#34;Myanmar&#34;</span>, <span style="color:#e6db74">&#34;Netherlands&#34;</span>, <span style="color:#e6db74">&#34;NewZealand&#34;</span>, <span style="color:#e6db74">&#34;Nicaragua&#34;</span>, <span style="color:#e6db74">&#34;Nigeria&#34;</span>, <span style="color:#e6db74">&#34;Norway&#34;</span>, <span style="color:#e6db74">&#34;Panama&#34;</span>, <span style="color:#e6db74">&#34;Paraguay&#34;</span>, <span style="color:#e6db74">&#34;Peru&#34;</span>,<span style="color:#e6db74">&#34;Philippines&#34;</span>,<span style="color:#e6db74">&#34;Poland&#34;</span>, <span style="color:#e6db74">&#34;Portugal&#34;</span>, <span style="color:#e6db74">&#34;Romania&#34;</span>, <span style="color:#e6db74">&#34;Russia&#34;</span>, <span style="color:#e6db74">&#34;Singapore&#34;</span>, <span style="color:#e6db74">&#34;SouthAfrica&#34;</span>, <span style="color:#e6db74">&#34;Spain&#34;</span>, <span style="color:#e6db74">&#34;SriLanka&#34;</span>, <span style="color:#e6db74">&#34;Sweden&#34;</span>, <span style="color:#e6db74">&#34;Switzerland&#34;</span>, <span style="color:#e6db74">&#34;Taiwan&#34;</span>, <span style="color:#e6db74">&#34;Thailand&#34;</span>, <span style="color:#e6db74">&#34;Tunisia&#34;</span>, <span style="color:#e6db74">&#34;Turkey&#34;</span>, <span style="color:#e6db74">&#34;UK&#34;</span>,<span style="color:#e6db74">&#34;Uruguay&#34;</span>,<span style="color:#e6db74">&#34;US&#34;</span>,<span style="color:#e6db74">&#34;Venezuela&#34;</span>, <span style="color:#e6db74">&#34;Zambia&#34;</span>,<span style="color:#e6db74">&#34;Zimbabwe&#34;</span>), names_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Country&#34;</span>, values_to<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;count&#34;</span>)<span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1960&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1970&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1980&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1990&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1995&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2000&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2005&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2010&#34;</span>)<span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;India&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Brazil&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Canada&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;China&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Germany&#34;</span> <span style="color:#f92672">|</span> Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Belgium&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Argentina&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Australia&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;France&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Spain&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Mexico&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Italy&#34;</span><span style="color:#f92672">|</span>Country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Japan&#34;</span>)<span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(Country, year, count)<span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rename</span>(<span style="color:#e6db74">&#34;Banking Crises&#34;</span><span style="color:#f92672">=</span>count, <span style="color:#e6db74">&#34;Year&#34;</span><span style="color:#f92672">=</span>year)
+bankingcrisis
+</code></pre></div><pre><code>## # A tibble: 104 x 3
+##    Country    Year `Banking Crises`
+##    &lt;chr&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Argentina  1960                0
+##  2 Australia  1960                0
+##  3 Belgium    1960                0
+##  4 Brazil     1960                0
+##  5 Canada     1960                0
+##  6 China      1960                0
+##  7 France     1960                0
+##  8 Germany    1960                0
+##  9 India      1960                0
+## 10 Italy      1960                0
+## # … with 94 more rows
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(readr)
+mvprod <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;mvprod.csv&#34;</span>)
+vehicleProduction<span style="color:#f92672">&lt;-</span> mvprod <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">arrange</span>(year)<span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;India&#34;</span><span style="color:#f92672">|</span>country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Canada&#34;</span><span style="color:#f92672">|</span>country<span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Germany&#34;</span><span style="color:#f92672">|</span>country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Brazil&#34;</span><span style="color:#f92672">|</span>country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;China&#34;</span><span style="color:#f92672">|</span> country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Belgium&#34;</span><span style="color:#f92672">|</span> country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Argentina&#34;</span><span style="color:#f92672">|</span> country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Australia&#34;</span><span style="color:#f92672">|</span> country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;France&#34;</span><span style="color:#f92672">|</span>country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Spain&#34;</span><span style="color:#f92672">|</span>country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Mexico&#34;</span><span style="color:#f92672">|</span>country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Italy&#34;</span><span style="color:#f92672">|</span>country<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;Japan&#34;</span>)<span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1960&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1970&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1980&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1990&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1995&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2000&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2005&#34;</span><span style="color:#f92672">|</span>year<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2010&#34;</span>)<span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(year, country, value)<span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">rename</span>(<span style="color:#e6db74">&#34;Cars Produced&#34;</span><span style="color:#f92672">=</span>value, <span style="color:#e6db74">&#34;Year&#34;</span><span style="color:#f92672">=</span>year, <span style="color:#e6db74">&#34;Country&#34;</span><span style="color:#f92672">=</span>country)
+vehicleProduction
+</code></pre></div><pre><code>## # A tibble: 104 x 3
+##     Year Country   `Cars Produced`
+##    &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt;
+##  1  1960 Argentina           89000
+##  2  1960 Australia          204000
+##  3  1960 Belgium              1000
+##  4  1960 Brazil              49807
+##  5  1960 Canada             397739
+##  6  1960 China               22574
+##  7  1960 France            1369210
+##  8  1960 Germany           2056149
+##  9  1960 India               51136
+## 10  1960 Italy              644633
+## # … with 94 more rows
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">OverallTable<span style="color:#f92672">&lt;-</span> countrypopulation <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">full_join</span>(vehicleProduction) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">full_join</span>(bankingcrisis)
+<span style="color:#a6e22e">view</span>(OverallTable)
+</code></pre></div><h2 id="manova">MANOVA</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(rstatix)
+group<span style="color:#f92672">&lt;-</span> OverallTable<span style="color:#f92672">$</span>Year
+DVs<span style="color:#f92672">&lt;-</span> OverallTable <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(population,`Cars Produced`)
+<span style="color:#a6e22e">sapply</span>(<span style="color:#a6e22e">split</span>(DVs,group), mshapiro_test)
+</code></pre></div><pre><code>## 1960 1970 1980 1990 1995 2000 2005
+## statistic 0.5749212 0.5630714 0.624961 0.6432532
+0.7528144 0.7979401 0.8292346
+## p.value 4.010232e-05 3.198714e-05 0.000108466
+0.0001588152 0.001977329 0.006443556 0.0154939
+## 2010
+## statistic 0.757017
+## p.value 0.002198621
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">manova1<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">manova</span>(<span style="color:#a6e22e">cbind</span>(OverallTable<span style="color:#f92672">$</span>population, OverallTable<span style="color:#f92672">$</span>`Cars Produced`)<span style="color:#f92672">~</span>Year, data<span style="color:#f92672">=</span>OverallTable)
+<span style="color:#a6e22e">summary</span>(manova1)
+</code></pre></div><pre><code>## Df Pillai approx F num Df den Df Pr(&gt;F)
+## Year 1 0.11487 6.5535 2 101 0.002108 **
+## Residuals 102
+## ---
+## Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1
+' ' 1
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">summary.aov</span>(manova1)
+</code></pre></div><pre><code>## Response 1 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## Year 1 2.2194e+17 2.2194e+17 1.8053 0.1821
+## Residuals 102 1.2539e+19 1.2294e+17
+##
+## Response 2 :
+## Df Sum Sq Mean Sq F value Pr(&gt;F)
+## Year 1 1.0370e+14 1.0370e+14 12.153 0.0007241 ***
+## Residuals 102 8.7038e+14 8.5331e+12
+## ---
+## Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1
+' ' 1
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">pairwise.t.test</span>(OverallTable<span style="color:#f92672">$</span>`Cars Produced`, OverallTable<span style="color:#f92672">$</span>Year, p.adj<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;none&#34;</span>)
+</code></pre></div><pre><code>##
+## Pairwise comparisons using t tests with pooled SD
+##
+## data: OverallTable$`Cars Produced` and OverallTable$Year
+##
+## 1960 1970 1980 1990 1995 2000 2005
+## 1970 0.4448 - - - - - -
+## 1980 0.1843 0.5700 - - - - -
+## 1990 0.0750 0.3045 0.6449 - - - -
+## 1995 0.0987 0.3704 0.7422 0.8949 - - -
+## 2000 0.0497 0.2252 0.5168 0.8510 0.7491 - -
+## 2005 0.0248 0.1335 0.3479 0.6317 0.5411 0.7705 -
+## 2010 0.0029 0.0243 0.0888 0.2119 0.1680 0.2880 0.4397
+##
+## P value adjustment method: none
+</code></pre><p>*This MANOVA was conducted to determine the effect of the Year on the two dependent variables, cars Produced and population. The MANOVA did prove to be significant with a p-value of 0.0021, meaning that there are significant differences among the years category. Therefore, we can reject the null hypothesis that for both dependent variables the mean for each year are equal. Then a univariate ANOVA was performed, only the second response, cars produced, showed having a significant difference between at least 1 year categories. I overall conducted 11 hypothesis tests(1 MANOVA, 2 ANOVA, 8 t-tests). The probability that I made a Type-I error is 0.05, unadjusted. The bonferroni adjusted significance level is 0.05/11=0.0045 to maintain the error rate of 0.05. *</p>
+<p>*MANOVA tests require many assumptions(6 to be exact) to be met. My data does not meet multivariate normality for the year category(n&lt;25), based on the significance of my mshapiro test(p=0.002). I also do not think that all of my dependent variables have linear relationships with each other, population especially. I also am assuming that my data likely does not have homogeneity of within-group covariance matrices. *</p>
+<h2 id="mean-difference-randomization-test">Mean Difference (Randomization Test)</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#subsetting the data</span>
+car_1970 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">219599</span>, <span style="color:#ae81ff">475000</span>, <span style="color:#ae81ff">7000</span>,<span style="color:#ae81ff">296000</span>,<span style="color:#ae81ff">192841</span>,<span style="color:#ae81ff">1159504</span>, <span style="color:#ae81ff">87166</span>, <span style="color:#ae81ff">3842247</span>, <span style="color:#ae81ff">539132</span>, <span style="color:#ae81ff">2750086</span>, <span style="color:#ae81ff">76409</span>, <span style="color:#ae81ff">1854252</span>, <span style="color:#ae81ff">5289157</span>, <span style="color:#ae81ff">916089</span>)
+car_2010 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">716540</span>, <span style="color:#ae81ff">243495</span>, <span style="color:#ae81ff">104814</span>, <span style="color:#ae81ff">555302</span>, <span style="color:#ae81ff">2342282</span>, <span style="color:#ae81ff">2068189</span>, <span style="color:#ae81ff">18264761</span>, <span style="color:#ae81ff">5905985</span>, <span style="color:#ae81ff">2387900</span>, <span style="color:#ae81ff">2229421</span>, <span style="color:#ae81ff">3557073</span>, <span style="color:#ae81ff">838186</span>, <span style="color:#ae81ff">9628920</span>, <span style="color:#ae81ff">3981728</span>)
+<span style="color:#a6e22e">mean</span>(car_1970)
+</code></pre></div><pre><code>## [1] 1264606
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">mean</span>(car_2010)
+</code></pre></div><pre><code>## [1] 3773185
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">logcar_2010<span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">log</span>(car_2010)
+logcar_1970<span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">log</span>(car_1970)
+(<span style="color:#a6e22e">mean</span>(car_2010)<span style="color:#f92672">-</span><span style="color:#a6e22e">mean</span>(car_1970))
+</code></pre></div><pre><code>## [1] 2508580
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">348</span>)
+car_randomizations <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(Production <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(car_2010, car_1970), LogProduction <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(logcar_2010, 
+    logcar_1970), Decade <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;2010&#34;</span>, <span style="color:#ae81ff">14</span>), <span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;1970&#34;</span>, 
+    <span style="color:#ae81ff">14</span>)))
+car_randomizations
+</code></pre></div><pre><code>##    Production LogProduction Decade
+## 1      716540     13.482189   2010
+## 2      243495     12.402852   2010
+## 3      104814     11.559943   2010
+## 4      555302     13.227267   2010
+## 5     2342282     14.666636   2010
+## 6     2068189     14.542184   2010
+## 7    18264761     16.720484   2010
+## 8     5905985     15.591477   2010
+## 9     2387900     14.685925   2010
+## 10    2229421     14.617252   2010
+## 11    3557073     15.084449   2010
+## 12     838186     13.638995   2010
+## 13    9628920     16.080282   2010
+## 14    3981728     15.197226   2010
+## 15     219599     12.299558   1970
+## 16     475000     13.071070   1970
+## 17       7000      8.853665   1970
+## 18     296000     12.598115   1970
+## 19     192841     12.169621   1970
+## 20    1159504     13.963503   1970
+## 21      87166     11.375570   1970
+## 22    3842247     15.161568   1970
+## 23     539132     13.197716   1970
+## 24    2750086     14.827143   1970
+## 25      76409     11.243856   1970
+## 26    1854252     14.432992   1970
+## 27    5289157     15.481169   1970
+## 28     916089     13.727869   1970
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">car_randomizations <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(Decade) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>(means <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(Production)) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">summarize</span>(mean_difference <span style="color:#f92672">=</span> <span style="color:#a6e22e">diff</span>(means))
+</code></pre></div><pre><code>## # A tibble: 1 x 1
+##   mean_difference
+##             &lt;dbl&gt;
+## 1        2508580.
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggplot</span>(car_randomizations, <span style="color:#a6e22e">aes</span>(Production, fill <span style="color:#f92672">=</span> Decade)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">geom_histogram</span>(bins <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>Decade, ncol <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#mean difference</span>
+
+
+rand_car<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">vector</span>()
+<span style="color:#a6e22e">for</span>(i in <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5000</span>){
+  new<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">data.frame</span>(Production<span style="color:#f92672">=</span><span style="color:#a6e22e">sample</span>(car_randomizations<span style="color:#f92672">$</span>Production),Decade<span style="color:#f92672">=</span>car_randomizations<span style="color:#f92672">$</span>Decade)
+  rand_car[i]<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">mean</span>(new[new<span style="color:#f92672">$</span>Decade<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;2010&#34;</span>,]<span style="color:#f92672">$</span>Production)<span style="color:#f92672">-</span> <span style="color:#a6e22e">mean</span>(new[new<span style="color:#f92672">$</span>Decade<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;1970&#34;</span>,]<span style="color:#f92672">$</span>Production)
+}
+<span style="color:#a6e22e">head</span>(rand_car)
+</code></pre></div><pre><code>## [1] -1022664.4 1422473.6 -1985641.4 573395.1 -1370924.9
+2215107.4
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">{
+    <span style="color:#a6e22e">hist</span>(rand_car, main <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34; &#34;</span>, ylab <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34; &#34;</span>)
+    <span style="color:#a6e22e">abline</span>(v <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-2508580</span>, <span style="color:#ae81ff">2508580</span>))
+}
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">mean</span>(rand_car <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2508580</span> <span style="color:#f92672">|</span> rand_car <span style="color:#f92672">&lt;</span> (<span style="color:#ae81ff">-2508580</span>))
+</code></pre></div><pre><code>## [1] 0.0564
+</code></pre><p>*The null hypothesis is, the number of cars produced in 1970 and 2010 are the same. The alternative hypothesis is, the number of cars produced in 170 and 2010 are not the same. The resulting p-value of 0.0564 shows that we fail to reject the null hypothesis meaning there is not a significant difference in the number of cars produced in 1970 and 2010. *</p>
+<h2 id="linear-regression-model">Linear Regression Model</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(sandwich)
+<span style="color:#a6e22e">library</span>(lmtest)
+CenteredFit<span style="color:#f92672">&lt;-</span> OverallTable
+CenteredFit<span style="color:#f92672">$</span>YearCentered <span style="color:#f92672">&lt;-</span> (CenteredFit<span style="color:#f92672">$</span>Year <span style="color:#f92672">-</span> <span style="color:#a6e22e">mean</span>(CenteredFit<span style="color:#f92672">$</span>Year, na.rm <span style="color:#f92672">=</span> T))
+CenteredFit<span style="color:#f92672">$</span>PopulationCentered <span style="color:#f92672">&lt;-</span> (CenteredFit<span style="color:#f92672">$</span>population <span style="color:#f92672">-</span> <span style="color:#a6e22e">mean</span>(CenteredFit<span style="color:#f92672">$</span>population, na.rm <span style="color:#f92672">=</span> T))
+CenteredFit<span style="color:#f92672">$</span>CarsCentered <span style="color:#f92672">&lt;-</span> (CenteredFit<span style="color:#f92672">$</span>`Cars Produced` <span style="color:#f92672">-</span> <span style="color:#a6e22e">mean</span>(CenteredFit<span style="color:#f92672">$</span>`Cars Produced`, na.rm <span style="color:#f92672">=</span> T))
+fit<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">lm</span>(CarsCentered<span style="color:#f92672">~</span>YearCentered<span style="color:#f92672">+</span> PopulationCentered, data<span style="color:#f92672">=</span> CenteredFit)
+<span style="color:#a6e22e">summary</span>(fit)
+</code></pre></div><pre><code>##
+## Call:
+## lm(formula = CarsCentered ~ YearCentered +
+PopulationCentered,
+## data = CenteredFit)
+##
+## Residuals:
+## Min 1Q Median 3Q Max
+## -3234458 -1646574 -523027 336214 13822572
+##
+## Coefficients:
+## Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -7.779e-10 2.867e+05 0.000 1.00000
+## YearCentered 5.902e+04 1.770e+04 3.335 0.00119 **
+## PopulationCentered 7.329e-04 8.258e-04 0.887 0.37692
+## ---
+## Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1
+' ' 1
+##
+## Residual standard error: 2924000 on 101 degrees of
+freedom
+## Multiple R-squared: 0.1134, Adjusted R-squared: 0.09582
+## F-statistic: 6.458 on 2 and 101 DF, p-value: 0.002295
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">coef</span>(fit) 
+</code></pre></div><pre><code>##        (Intercept)       YearCentered PopulationCentered 
+##      -7.778801e-10       5.901938e+04       7.328842e-04
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#graphing</span>
+OverallTable<span style="color:#f92672">%&gt;%</span><span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(Year,population))<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_point</span>()<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;lm&#39;</span>,se<span style="color:#f92672">=</span>F)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#checking assumptions </span>
+resids<span style="color:#f92672">&lt;-</span>fit<span style="color:#f92672">$</span>residuals
+fitvals<span style="color:#f92672">&lt;-</span>fit<span style="color:#f92672">$</span>fitted.values
+<span style="color:#a6e22e">ggplot</span>()<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(fitvals,resids))<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_hline</span>(yintercept<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>)<span style="color:#75715e">#testing variance</span>
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">bptest</span>(fit) <span style="color:#75715e">#equalvariancetest</span>
+</code></pre></div><pre><code>## 
+## 	studentized Breusch-Pagan test
+## 
+## data:  fit
+## BP = 7.5636, df = 2, p-value = 0.02278
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggplot</span>(OverallTable, <span style="color:#a6e22e">aes</span>(Year<span style="color:#f92672">+</span>population, `Cars Produced`)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">geom_point</span>()
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ks.test</span>(resids, <span style="color:#e6db74">&#34;pnorm&#34;</span>, mean<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">sd</span>(resids)) 
+</code></pre></div><pre><code>## 
+## 	One-sample Kolmogorov-Smirnov test
+## 
+## data:  resids
+## D = 0.21928, p-value = 9.064e-05
+## alternative hypothesis: two-sided
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">coeftest</span>(fit, vcov. <span style="color:#f92672">=</span> <span style="color:#a6e22e">vcovHC</span>(fit))<span style="color:#75715e">#robust standard errors, increases stadnard errors to fix assumptions, lowering T-statistic and increasing p-value </span>
+</code></pre></div><pre><code>##
+## t test of coefficients:
+##
+## Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) -7.7788e-10 2.9608e+05 0.0000 1.0000000
+## YearCentered 5.9019e+04 1.4825e+04 3.9811 0.0001294 ***
+## PopulationCentered 7.3288e-04 1.4716e-03 0.4980
+0.6195507
+## ---
+## Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1
+' ' 1
+</code></pre><p>*This linear regression model using two predictors is assessing both the effect of Year on Car Production controlling for population and the effect of population on Car Production controlling for Year. The resulting coefficient estimates show that mean/predicted car production for a country in an average year is .The best fitting plane for this data is modeled by the equation Cars Produced=-1.152e+08 + 59,019(Year)+0.0007329(population).The number of cars produced increases by 59,019 cars for every 1 year that passes. Then number of cars produced increases by .0007329 cars for a 1 person increase in population. *</p>
+<p>*The proportion of variation in CAr Production variable that is explained by all of the predictors at once is 0.09582(adjusted R-squared value). *</p>
+<p><em>The null hypothesis in this test is that homoskedasticity is met. Based on the significant value of the Breusch-Pagan(tests for equal variance) test at 0.03174 we can reject the null hypothesis. The residual ggplot confirms this discrepancy. Moving from left to right the second ggplot, points seem to start to gather more closely suggesting that homoskedasticity is met. The Breusch-Pagan test suggests also that we can reject the null hypothesis that homoskedasticity is met because the p-value is significant at 0.02278. The ggplot shows that both variable result in a more speard out pattern when moving from right to left suggesting also that homoskedasticity has not been met.</em></p>
+<p><em>After redoing the regression using robust standard errors the new p-value is 0.000129 for Year and 0.61955 for population. This means that we can reject the null hypothesis for year centered and fail to reject the null hypothesis for population centered after redoing the regression using heteroskedasticity robust standard errors. Increasing standard errors is done to help meet the assumptions of a linear regression. This adjusts in order to increase standard errors, decrease t-statistic, and increase p-statistic.</em></p>
+<h2 id="bootstrapping">Bootstrapping</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">samp_bootstrap2<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">replicate</span>(<span style="color:#ae81ff">5000</span>, 
+                           {
+  boot_data2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample_frac</span>(CenteredFit, replace<span style="color:#f92672">=</span>T) 
+  fit2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(CarsCentered<span style="color:#f92672">~</span>YearCentered<span style="color:#f92672">+</span>PopulationCentered, data<span style="color:#f92672">=</span>boot_data2)
+  <span style="color:#a6e22e">coef</span>(fit2)
+  }
+)
+
+samp_bootstrap2 <span style="color:#f92672">%&gt;%</span> t <span style="color:#f92672">%&gt;%</span> as.data.frame <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize_all</span>(sd)
+</code></pre></div><pre><code>##   (Intercept) YearCentered PopulationCentered
+## 1    285160.2      13901.4        0.001330047
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">samp_bootstrap2 <span style="color:#f92672">%&gt;%</span> t <span style="color:#f92672">%&gt;%</span> as.data.frame <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">3</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(name) <span style="color:#f92672">%&gt;%</span>
+<span style="color:#a6e22e">summarize</span>(lower<span style="color:#f92672">=</span><span style="color:#a6e22e">quantile</span>(value,<span style="color:#ae81ff">.025</span>), upper<span style="color:#f92672">=</span><span style="color:#a6e22e">quantile</span>(value,<span style="color:#ae81ff">.975</span>))
+</code></pre></div><pre><code>## # A tibble: 3 x 3
+##   name                       lower        upper
+##   &lt;chr&gt;                      &lt;dbl&gt;        &lt;dbl&gt;
+## 1 (Intercept)        -523203.      607617.     
+## 2 PopulationCentered      -0.00131      0.00361
+## 3 YearCentered         32977.       86292.
+</code></pre><p>*By bootstrapping the linear regression I aimed to use replacement to randomly sample rows from my data set. The estimated standard error for my intercept is 288055.6 cars. The estimated standard error for Year is 14128.67. The estimated standard error for population is 0.001321. I can be 95% sure that the intercept will fall between -5.357217e+05 and	5.752066e+05. I can be 95% sure that the population will fall between -1.311463e-03	3.561501e-03. I can also be 95% sure that the year will fall between 3.229477e+04	and 8.670292e+04. *</p>
+<h2 id="binary-variable-logistic-regression">Binary Variable Logistic Regression</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">fit3<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">glm</span>(`Banking Crises`<span style="color:#f92672">~</span>population<span style="color:#f92672">+</span>`Cars Produced`, data<span style="color:#f92672">=</span> OverallTable, family<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;binomial&#34;</span>)
+<span style="color:#a6e22e">coeftest</span>(fit3)
+</code></pre></div><pre><code>##
+## z test of coefficients:
+##
+## Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept) -1.4311e+00 3.3503e-01 -4.2717 1.94e-05 ***
+## population -3.5010e-10 7.7850e-10 -0.4497 0.6529
+## `Cars Produced` 2.5876e-08 7.9554e-08 0.3253 0.7450
+## ---
+## Signif. codes: 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1
+' ' 1
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#ae81ff">0.239</span><span style="color:#f92672">/</span>(<span style="color:#ae81ff">1+0.239</span>)
+</code></pre></div><pre><code>## [1] 0.1928975
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">exp</span>(<span style="color:#a6e22e">coef</span>(fit3))
+</code></pre></div><pre><code>##     (Intercept)      population `Cars Produced` 
+##       0.2390402       1.0000000       1.0000000
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">probs<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">predict</span>(fit3,type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;response&#34;</span>) 
+<span style="color:#a6e22e">table</span>(predict<span style="color:#f92672">=</span><span style="color:#a6e22e">as.numeric</span>(probs<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">.2</span>),truth<span style="color:#f92672">=</span>OverallTable<span style="color:#f92672">$</span>`Banking Crises`)<span style="color:#f92672">%&gt;%</span>addmargins
+</code></pre></div><pre><code>##        truth
+## predict   0   1 Sum
+##     0    60  15  75
+##     1    24   5  29
+##     Sum  84  20 104
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">OverallTable<span style="color:#f92672">$</span>logit<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">predict</span>(fit3,type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;link&#34;</span>)
+OverallTable<span style="color:#f92672">%&gt;%</span><span style="color:#a6e22e">ggplot</span>()<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_density</span>(<span style="color:#a6e22e">aes</span>(logit,color<span style="color:#f92672">=</span>`Banking Crises`,fill<span style="color:#f92672">=</span>`Banking Crises`), alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">.4</span>)<span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(legend.position<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">.85</span>,<span style="color:#ae81ff">.85</span>))<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_vline</span>(xintercept<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">+</span><span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;logit (log-odds)&#34;</span>)<span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_rug</span>(<span style="color:#a6e22e">aes</span>(logit,color<span style="color:#f92672">=</span>`Banking Crises`))
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(plotROC)
+ROCplot<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ggplot</span>(OverallTable)<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_roc</span>(<span style="color:#a6e22e">aes</span>(d<span style="color:#f92672">=</span>`Banking Crises` ,m<span style="color:#f92672">=</span>population), n.cuts<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+ROCplot
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">calc_auc</span>(ROCplot)
+</code></pre></div><pre><code>##   PANEL group       AUC
+## 1     1    -1 0.5440476
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">ROCplot1<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ggplot</span>(OverallTable)<span style="color:#f92672">+</span><span style="color:#a6e22e">geom_roc</span>(<span style="color:#a6e22e">aes</span>(d<span style="color:#f92672">=</span>`Banking Crises` ,m<span style="color:#f92672">=</span>`Cars Produced`), n.cuts<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+ROCplot1
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">calc_auc</span>(ROCplot1)
+</code></pre></div><pre><code>##   PANEL group      AUC
+## 1     1    -1 0.539881
+</code></pre><p>*The coefficient estimates that resulted from the logistic regression show that for every one unit increase in population the log of the odds of a banking crisis occurring will decrease an estimated -3.5010e-10, if car production is held constant. Also for every one unit increase in car production the log of the odds of a banking crisis occurring will increase an estimated 2.5876e-08 if population is held constant.For population or cars produced equaling 0, odds of a banking crisis occurring is e^-1.4311= 0.2390. For a population equal to 1, the odds of a banking crisis occurring is e^(-1.4311-3.5010e-10)=0.239. Then for a cars production equal to 1, the odds of a banking crisis occurring is e^(-1.4311+2.5876e-08)=0.239. All of the changes warrant the same change in odds according to my math. Therefore all meaning that there is a 19.289% chance of a banking crisis occurring. When exponentiating the coefficient the 0.239 is confirmed. *</p>
+<p>*The confusion matrix allows us to find sensitivity(true +/condition+), specificity(true-/condition-), and precision(true+/ predicted condition positive). *</p>
+<p><em>The accuracy. The Sensitivity (TPR) is the true positive rate, and is identified as (5/20)x100= 25%. The Specificity(TNR) is the true negative rate, meaning that it is the probability of a negative result for a country without a banking crisis, here it is (60/84)x100=71.429%. The Precision(PPV) is the proportion of countries in a specific year who are classified as having a banking crisis that actually are, this value is (5/29)x100=17.241%.</em></p>
+<p><em>The density plot of the log odds is shown above, it adds to the proof that these variables population and car productivity are not related to banking crises.</em></p>
+<p>*After generating the ROC curve(plot) and calculating the AUC I have found that again this is a bad classification model. It forms a step-wise pattern that is practically diagonal meaning that these are not good predictors of banking crises. AUC is calculated to be 0.54404 for population, meaning there is a 0.544 probability that a random country having a banking crises has a higher predicted probability than a randomly selected country not having a banking crises. AUC is calculated to be 0.5399 for Cars Produced. A perfect model would be a perfect right angle in the top right corner. The AUC is the area under the curve, meaning that there is little separation between the FPR and the TPR. Banking crises occurrence and no banking crises occurrence basically have the same predicted outcome is what this shows. *</p>
+<p>&hellip;</p>
+
+            
+        <hr>         <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div> 
+            </div>
+          </div>
+
+   <hr>  <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> 
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../../js/docs.min.js"></script>
+<script src="../../js/main.js"></script>
+
+<script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>

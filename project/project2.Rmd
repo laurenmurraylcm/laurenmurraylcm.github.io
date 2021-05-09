@@ -1,7 +1,7 @@
 ---
 title: 'Project 2: Modeling, Testing, and Predicting'
 author: "Lauren Murray lcm2624"
-date: '4/5/2021'
+date: '2021-05-09'
 output:
   html_document:
     toc: yes

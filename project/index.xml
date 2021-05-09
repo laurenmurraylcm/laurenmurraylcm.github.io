@@ -5,11 +5,12 @@
     <link>/project/</link>
     <description>Recent content in Projects on Lauren Murray</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-US</language><atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-US</language>
+    <lastBuildDate>Sun, 09 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Project 1</title>
       <link>/project/project1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
       
       <guid>/project/project1/</guid>
       <description>Introduction  I have combined 4 data sets for this project. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population, deaths due to terrorist attacks, banking crisis incidence, and number of vehicles produced in a year. I chose these data sets to analyze the correlation between all of these variables over time and in different countries.</description>
@@ -18,10 +19,28 @@
     <item>
       <title>Project 2: Modeling, Testing, and Predicting</title>
       <link>/project/project2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
       
       <guid>/project/project2/</guid>
       <description>Introduction I have combined data sets for this project. I used these 3 data sets for Project 1 as well. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population(number of people in country), banking crisis incidence(binary), and number of vehicles produced in a year. I again chose these data sets to analyze the correlation between all of these variables over time and in different countries.</description>
+    </item>
+    
+    <item>
+      <title>Project 2: Modeling, Testing, and Predicting</title>
+      <link>/project/project2.knit/</link>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project2.knit/</guid>
+      <description>Introduction *I have combined data sets for this project. I used these 3 data sets for Project 1 as well. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population(number of people in country), banking crisis incidence(binary), and number of vehicles produced in a year. I again chose these data sets to analyze the correlation between all of these variables over time and in different countries.</description>
+    </item>
+    
+    <item>
+      <title>Project 2: Modeling, Testing, and Predicting</title>
+      <link>/project/project2.utf8/</link>
+      <pubDate>Sun, 09 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project2.utf8/</guid>
+      <description>Introduction *I have combined data sets for this project. I used these 3 data sets for Project 1 as well. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population(number of people in country), banking crisis incidence(binary), and number of vehicles produced in a year. I again chose these data sets to analyze the correlation between all of these variables over time and in different countries.</description>
     </item>
     
   </channel>
