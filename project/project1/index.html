@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Lauren Murray" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../img/favicon.ico">
+    <title>Project 1</title>
+    <meta name="generator" content="Hugo 0.83.1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../../post/">BLOG</a></li>
+        
+        <li><a href="../../projects/">PROJECTS</a></li>
+        
+        <li><a href="../../resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../../project/project1/">Project 1</a></strong>
+          </h3>
+        </div>
+ 
+<div class="blog-title">
+          <h4>
+         January 1, 0001 
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+
+
+<P style="page-break-before: always">
+<div style="page-break-after: always;"></div>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<ul>
+<li>I have combined 4 data sets for this project. The independent variables that are joined, common for all data sets, are year and country. The dependent variables I am assessing are country code, population, deaths due to terrorist attacks, banking crisis incidence, and number of vehicles produced in a year. I chose these data sets to analyze the correlation between all of these variables over time and in different countries. The countries that I chose to study here are France, Argentina, Australia, Belgium, Brazil, Canada, China, Germany, India, and Spain. I am looking at statistics for these countries only in the years 1970, 1980, 1990, 2000, and 2010. These data sets came from <a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html" class="uri">https://vincentarelbundock.github.io/Rdatasets/datasets.html</a></li>
+<li>With the COVID-19 pandemic occurring this year I have been made aware more than ever of how one event can cause a ripple effect that alters daily life in ways that are not always expected. Along that train of thought, during my research trying to find data sets to join I came upon these data sets and wondered if a banking crisis would decrease car production; or if the increase in terrorist violence could be the associated with a change in population; and so on and so forth. I expect that the larger the population is for a given observation that there will be more deaths due to terrorist attacks and more vehicles produced in a year. I also expect that the occurrence of a banking crisis will have a negative effect on number of cars produced and a positive correlation with number of deaths caused by terrorist attacks.</li>
+</ul>
+</div>
+<div id="tidying-rearranging-widelong" class="section level3">
+<h3>Tidying: Rearranging Wide/Long</h3>
+<pre class="r"><code>library(tidyverse)
+library(dplyr)
+library(readr)
+countrypops &lt;- read_csv(&quot;countrypops.csv&quot;)
+countrypopulation &lt;- countrypops %&gt;% arrange(year) %&gt;% filter(country_name == 
+    &quot;India&quot; | country_name == &quot;Canada&quot; | country_name == &quot;Germany&quot; | 
+    country_name == &quot;Argentina&quot; | country_name == &quot;Belgium&quot; | 
+    country_name == &quot;Brazil&quot; | country_name == &quot;China&quot; | country_name == 
+    &quot;Australia&quot; | country_name == &quot;France&quot; | country_name == 
+    &quot;Spain&quot;) %&gt;% filter(year == &quot;1970&quot; | year == &quot;1980&quot; | year == 
+    &quot;1990&quot; | year == &quot;2000&quot; | year == &quot;2010&quot;) %&gt;% select(year, 
+    country_name, country_code_2, population) %&gt;% rename(Country = country_name, 
+    `Country Code` = country_code_2, Year = year)
+countrypopulation</code></pre>
+<pre><code>## # A tibble: 50 x 4
+##     Year Country   `Country Code` population
+##    &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;               &lt;dbl&gt;
+##  1  1970 Argentina AR               23973058
+##  2  1970 Australia AU               12507000
+##  3  1970 Belgium   BE                9655549
+##  4  1970 Brazil    BR               95326793
+##  5  1970 Canada    CA               21324000
+##  6  1970 China     CN              818315000
+##  7  1970 Germany   DE               78169289
+##  8  1970 Spain     ES               33814531
+##  9  1970 France    FR               52035095
+## 10  1970 India     IN              553578513
+## # … with 40 more rows</code></pre>
+<pre class="r"><code>library(readr)
+bankingCrises &lt;- read_csv(&quot;bankingCrises.csv&quot;)
+bankingcrisis &lt;- bankingCrises %&gt;% arrange(year) %&gt;% pivot_longer(c(&quot;Algeria&quot;, 
+    &quot;Angola&quot;, &quot;Argentina&quot;, &quot;Australia&quot;, &quot;Austria&quot;, &quot;Belgium&quot;, 
+    &quot;Bolivia&quot;, &quot;Brazil&quot;, &quot;Canada&quot;, &quot;CentralAfricanRep&quot;, &quot;Chile&quot;, 
+    &quot;China&quot;, &quot;Colombia&quot;, &quot;CostaRica&quot;, &quot;CoteDIvoire&quot;, &quot;Denmark&quot;, 
+    &quot;DominicanRepublic&quot;, &quot;Ecuador&quot;, &quot;Egypt&quot;, &quot;ElSalvador&quot;, &quot;Finland&quot;, 
+    &quot;France&quot;, &quot;Germany&quot;, &quot;Ghana&quot;, &quot;Greece&quot;, &quot;Guatemala&quot;, &quot;Honduras&quot;, 
+    &quot;Hungary&quot;, &quot;Iceland&quot;, &quot;India&quot;, &quot;Indonesia&quot;, &quot;Ireland&quot;, &quot;Italy&quot;, 
+    &quot;Japan&quot;, &quot;Kenya&quot;, &quot;Korea&quot;, &quot;Malaysia&quot;, &quot;Mauritius&quot;, &quot;Mexico&quot;, 
+    &quot;Morocco&quot;, &quot;Myanmar&quot;, &quot;Netherlands&quot;, &quot;NewZealand&quot;, &quot;Nicaragua&quot;, 
+    &quot;Nigeria&quot;, &quot;Norway&quot;, &quot;Panama&quot;, &quot;Paraguay&quot;, &quot;Peru&quot;, &quot;Philippines&quot;, 
+    &quot;Poland&quot;, &quot;Portugal&quot;, &quot;Romania&quot;, &quot;Russia&quot;, &quot;Singapore&quot;, &quot;SouthAfrica&quot;, 
+    &quot;Spain&quot;, &quot;SriLanka&quot;, &quot;Sweden&quot;, &quot;Switzerland&quot;, &quot;Taiwan&quot;, &quot;Thailand&quot;, 
+    &quot;Tunisia&quot;, &quot;Turkey&quot;, &quot;UK&quot;, &quot;Uruguay&quot;, &quot;US&quot;, &quot;Venezuela&quot;, 
+    &quot;Zambia&quot;, &quot;Zimbabwe&quot;), names_to = &quot;Country&quot;, values_to = &quot;count&quot;) %&gt;% 
+    filter(year == &quot;1970&quot; | year == &quot;1980&quot; | year == &quot;1990&quot; | 
+        year == &quot;2000&quot; | year == &quot;2010&quot;) %&gt;% filter(Country == 
+    &quot;India&quot; | Country == &quot;Brazil&quot; | Country == &quot;Canada&quot; | Country == 
+    &quot;China&quot; | Country == &quot;Germany&quot; | Country == &quot;Belgium&quot; | Country == 
+    &quot;Argentina&quot; | Country == &quot;Australia&quot; | Country == &quot;France&quot; | 
+    Country == &quot;Spain&quot;) %&gt;% select(Country, year, count) %&gt;% 
+    rename(`Banking Crises` = count, Year = year)
+bankingcrisis</code></pre>
+<pre><code>## # A tibble: 50 x 3
+##    Country    Year `Banking Crises`
+##    &lt;chr&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Argentina  1970                0
+##  2 Australia  1970                0
+##  3 Belgium    1970                0
+##  4 Brazil     1970                0
+##  5 Canada     1970                0
+##  6 China      1970                0
+##  7 France     1970                0
+##  8 Germany    1970                0
+##  9 India      1970                0
+## 10 Spain      1970                0
+## # … with 40 more rows</code></pre>
+<pre class="r"><code>library(readr)
+mvprod &lt;- read_csv(&quot;mvprod.csv&quot;)
+vehicleProduction &lt;- mvprod %&gt;% arrange(year) %&gt;% filter(country == 
+    &quot;India&quot; | country == &quot;Canada&quot; | country == &quot;Germany&quot; | country == 
+    &quot;Brazil&quot; | country == &quot;China&quot; | country == &quot;Belgium&quot; | country == 
+    &quot;Argentina&quot; | country == &quot;Australia&quot; | country == &quot;France&quot; | 
+    country == &quot;Spain&quot;) %&gt;% filter(year == &quot;1970&quot; | year == &quot;1980&quot; | 
+    year == &quot;1990&quot; | year == &quot;2000&quot; | year == &quot;2010&quot;) %&gt;% select(year, 
+    country, value) %&gt;% rename(`Cars Produced` = value, Year = year, 
+    Country = country)
+vehicleProduction</code></pre>
+<pre><code>## # A tibble: 50 x 3
+##     Year Country   `Cars Produced`
+##    &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt;
+##  1  1970 Argentina          219599
+##  2  1970 Australia          475000
+##  3  1970 Belgium            296000
+##  4  1970 Brazil             192841
+##  5  1970 Canada            1159504
+##  6  1970 China               87166
+##  7  1970 France            2750086
+##  8  1970 Germany           3842247
+##  9  1970 India               76409
+## 10  1970 Spain              539132
+## # … with 40 more rows</code></pre>
+<pre class="r"><code>library(readr)
+nkill_byCountryYr &lt;- read_csv(&quot;nkill.byCountryYr.csv&quot;)
+DeathsFromTerrorism &lt;- nkill_byCountryYr %&gt;% pivot_longer(c(&quot;1970&quot;, 
+    &quot;1971&quot;, &quot;1972&quot;, &quot;1973&quot;, &quot;1974&quot;, &quot;1975&quot;, &quot;1976&quot;, &quot;1977&quot;, &quot;1978&quot;, 
+    &quot;1979&quot;, &quot;1980&quot;, &quot;1981&quot;, &quot;1982&quot;, &quot;1983&quot;, &quot;1984&quot;, &quot;1985&quot;, &quot;1986&quot;, 
+    &quot;1987&quot;, &quot;1988&quot;, &quot;1989&quot;, &quot;1990&quot;, &quot;1991&quot;, &quot;1992&quot;, &quot;1993&quot;, &quot;1994&quot;, 
+    &quot;1995&quot;, &quot;1996&quot;, &quot;1997&quot;, &quot;1998&quot;, &quot;1999&quot;, &quot;2000&quot;, &quot;2001&quot;, &quot;2002&quot;, 
+    &quot;2003&quot;, &quot;2004&quot;, &quot;2005&quot;, &quot;2006&quot;, &quot;2007&quot;, &quot;2008&quot;, &quot;2009&quot;, &quot;2010&quot;, 
+    &quot;2011&quot;, &quot;2012&quot;, &quot;2013&quot;, &quot;2014&quot;, &quot;2015&quot;), names_to = &quot;year&quot;, 
+    values_to = &quot;count&quot;) %&gt;% arrange(year) %&gt;% rename(country = X1) %&gt;% 
+    filter(country == &quot;India&quot; | country == &quot;Canada&quot; | country == 
+        &quot;Germany&quot; | country == &quot;Brazil&quot; | country == &quot;China&quot; | 
+        country == &quot;Belgium&quot; | country == &quot;Argentina&quot; | country == 
+        &quot;Australia&quot; | country == &quot;France&quot; | country == &quot;Spain&quot;) %&gt;% 
+    filter(year == &quot;1970&quot; | year == &quot;1980&quot; | year == &quot;1990&quot; | 
+        year == &quot;2000&quot; | year == &quot;2010&quot;) %&gt;% select(year, country, 
+    count) %&gt;% mutate(year = as.numeric(year)) %&gt;% rename(Year = year, 
+    Country = country, `Terrorism Deaths` = count) %&gt;% arrange(Year)
+DeathsFromTerrorism</code></pre>
+<pre><code>## # A tibble: 50 x 3
+##     Year Country   `Terrorism Deaths`
+##    &lt;dbl&gt; &lt;chr&gt;                  &lt;dbl&gt;
+##  1  1970 Argentina                  5
+##  2  1970 Australia                  0
+##  3  1970 Belgium                    0
+##  4  1970 Brazil                     2
+##  5  1970 Canada                     1
+##  6  1970 China                      0
+##  7  1970 France                     0
+##  8  1970 Germany                    0
+##  9  1970 India                      0
+## 10  1970 Spain                      0
+## # … with 40 more rows</code></pre>
+<ul>
+<li>Tidying the data was done to allow me to easily join the data sets later on. I had to use pivot_longer on the bankingCrises data set and the nkill_byCountryYr data set in order to turn the countries from a row into a column and to turn the years from a row into a column, respectively. I also used the dplyr functions filter(), select(), and arrange() to organize my data sets so that I could get better understanding for how I wanted to join them and so that I could use the full_join() function later without having to worry about getting rid of extraneous columns when joining.</li>
+</ul>
+</div>
+<div id="joiningmerging-the-data" class="section level3">
+<h3>Joining/Merging the Data</h3>
+<pre class="r"><code>OverallTable &lt;- countrypopulation %&gt;% full_join(vehicleProduction) %&gt;% 
+    full_join(bankingcrisis) %&gt;% full_join(DeathsFromTerrorism)
+OverallTable</code></pre>
+<pre><code>## # A tibble: 50 x 7
+##     Year Country `Country Code` population `Cars Produced` `Banking Crises`
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+##  1  1970 Argent… AR               23973058          219599                0
+##  2  1970 Austra… AU               12507000          475000                0
+##  3  1970 Belgium BE                9655549          296000                0
+##  4  1970 Brazil  BR               95326793          192841                0
+##  5  1970 Canada  CA               21324000         1159504                0
+##  6  1970 China   CN              818315000           87166                0
+##  7  1970 Germany DE               78169289         3842247                0
+##  8  1970 Spain   ES               33814531          539132                0
+##  9  1970 France  FR               52035095         2750086                0
+## 10  1970 India   IN              553578513           76409                0
+## # … with 40 more rows, and 1 more variable: `Terrorism Deaths` &lt;dbl&gt;</code></pre>
+<ul>
+<li>I decided to use full_join because it allowed me to combine all of the observations based on both year and country, thus condensing the table and allowing me to add the subsequent columns (variables) alongside for each data set. I already tidied up my individual data sets up prior to joining them so no rows(observations) were lost. This is why I used the filter() function prior so that I could choose which countries I wanted in my overall data set and which years I wanted in my overall data set. I used the select() function prior as well so that I could manually remove all of the unwanted variables. full_join() worked because I did all of this prior organizing.</li>
+</ul>
+</div>
+<div id="wrangling-the-data" class="section level3">
+<h3>Wrangling the Data</h3>
+<pre class="r"><code>OverallTable_mutated &lt;- OverallTable %&gt;% mutate(`Percent of Population Killed` = (`Terrorism Deaths`/population) * 
+    100) %&gt;% arrange(Year)
+OverallTable_mutated</code></pre>
+<pre><code>## # A tibble: 50 x 8
+##     Year Country `Country Code` population `Cars Produced` `Banking Crises`
+##    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;               &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
+##  1  1970 Argent… AR               23973058          219599                0
+##  2  1970 Austra… AU               12507000          475000                0
+##  3  1970 Belgium BE                9655549          296000                0
+##  4  1970 Brazil  BR               95326793          192841                0
+##  5  1970 Canada  CA               21324000         1159504                0
+##  6  1970 China   CN              818315000           87166                0
+##  7  1970 Germany DE               78169289         3842247                0
+##  8  1970 Spain   ES               33814531          539132                0
+##  9  1970 France  FR               52035095         2750086                0
+## 10  1970 India   IN              553578513           76409                0
+## # … with 40 more rows, and 2 more variables: `Terrorism Deaths` &lt;dbl&gt;, `Percent
+## #   of Population Killed` &lt;dbl&gt;</code></pre>
+<ul>
+<li>In using all 6 core dplyr functions, 2 are shown above and the other 4 were used in the tidying data section. I used mutate() to create a new column in my data set called Percent of Population killed to look deeper into the relationship between terrorism caused deaths and population in a country in a specific year. Then I used arrange() to organize the data set by year from oldest to newest data observations. Filter() was used in tidying my data to keep only the countries and years that I wanted in the data set rather than all of them from the original data sets. Select() was used so that only the variables that I wanted to study stayed present and not other variables like secondary country codes that I didn’t want to study. I used summarize() below in order to gather statistics about the different variables in the data set. I used group_by() below as well to categorize the summarize statistics by country to view the data through a slightly different lens, I analyze the results more below.</li>
+</ul>
+<pre class="r"><code>OverallTable %&gt;% group_by(Country) %&gt;% summarize(mean_population = mean(population, 
+    na.rm = T), sd_population = sd(population, na.rm = T), max_population = max(population, 
+    na.rm = T), min_population = min(population, na.rm = T), 
+    median_population = median(population, na.rm = T))</code></pre>
+<pre><code>## # A tibble: 10 x 6
+##    Country mean_population sd_population max_population min_population
+##    &lt;chr&gt;             &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+##  1 Argent…       32618005.      6871621.       41223889       23973058
+##  2 Austra…       17089770       3722626.       22031750       12507000
+##  3 Belgium       10125801.       481039.       10895586        9655549
+##  4 Brazil       147584511      40686357.      196796269       95326793
+##  5 Canada        27696595.      4987349.       34005274       21324000
+##  6 China       1107017000     210594646.     1337705000      818315000
+##  7 France        58365738.      5002854.       65027507       52035095
+##  8 Germany       79975866.      1913587.       82211508       78169289
+##  9 India        880905423.    270807395.     1230980691      553578513
+## 10 Spain         39463556.      4689787.       46576897       33814531
+## # … with 1 more variable: median_population &lt;dbl&gt;</code></pre>
+<pre class="r"><code>OverallTable %&gt;% group_by(Country) %&gt;% summarize(mean_cars = mean(`Cars Produced`, 
+    na.rm = T), sd_cars = sd(`Cars Produced`, na.rm = T), max_cars = max(`Cars Produced`, 
+    na.rm = T), min_cars = min(`Cars Produced`, na.rm = T), median_cars = median(`Cars Produced`, 
+    na.rm = T))</code></pre>
+<pre><code>## # A tibble: 10 x 6
+##    Country   mean_cars  sd_cars max_cars min_cars median_cars
+##    &lt;chr&gt;         &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Argentina   331441.  232956.   716540    99639      281793
+##  2 Australia   342123.   88237.   475000   243495      347122
+##  3 Belgium     811262.  382061.  1248290   296000      923426
+##  4 Brazil     1156243.  935237.  2342282   192841      820558
+##  5 Canada     1901208.  704844.  2961636  1159504     1947106
+##  6 China      4230505. 7885319. 18264761    87166      509242
+##  7 France     3095059.  605596.  3768993  2229421     3348361
+##  8 Germany    4825990.  941451.  5905985  3842247     4976552
+##  9 India       982283. 1468067.  3557073    76409      362655
+## 10 Spain      1838983   986702.  3032874   539132     2053350</code></pre>
+<pre class="r"><code>OverallTable %&gt;% group_by(Country) %&gt;% summarize(mean_deaths = mean(`Terrorism Deaths`, 
+    na.rm = T), sd_deaths = sd(`Terrorism Deaths`, na.rm = T), 
+    max_deaths = max(`Terrorism Deaths`, na.rm = T), min_deaths = min(`Terrorism Deaths`, 
+        na.rm = T), median_deaths = median(`Terrorism Deaths`, 
+        na.rm = T))</code></pre>
+<pre><code>## # A tibble: 10 x 6
+##    Country   mean_deaths sd_deaths max_deaths min_deaths median_deaths
+##    &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+##  1 Argentina         1.2     2.17           5          0             0
+##  2 Australia         0.4     0.894          2          0             0
+##  3 Belgium           0.8     1.10           2          0             0
+##  4 Brazil            4.8     8.04          19          0             2
+##  5 Canada            0.2     0.447          1          0             0
+##  6 China             2       2.92           7          0             1
+##  7 France            5.4     8.35          20          0             3
+##  8 Germany           0.2     0.447          1          0             0
+##  9 India           481.    440.           907          0           671
+## 10 Spain            35.4    47.6          116          0            29</code></pre>
+<pre class="r"><code>OverallTable %&gt;% group_by(Year) %&gt;% summarize(mean_population = mean(population, 
+    na.rm = T), sd_population = sd(population, na.rm = T), max_population = max(population, 
+    na.rm = T), min_population = min(population, na.rm = T), 
+    median_population = median(population, na.rm = T))</code></pre>
+<pre><code>## # A tibble: 5 x 6
+##    Year mean_population sd_population max_population min_population
+##   &lt;dbl&gt;           &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+## 1  1970      169869883.    280447781.      818315000        9655549
+## 2  1980      204754893.    342550649.      981235000        9859242
+## 3  1990      241903700.    407756393.     1135185000        9967379
+## 4  2000      277190677.    469097764.     1262645000       10251250
+## 5  2010      306701979.    518478671.     1337705000       10895586
+## # … with 1 more variable: median_population &lt;dbl&gt;</code></pre>
+<pre class="r"><code>OverallTable %&gt;% summarize(mean_deaths = mean(`Terrorism Deaths`, 
+    na.rm = T))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   mean_deaths
+##         &lt;dbl&gt;
+## 1        53.2</code></pre>
+<pre class="r"><code>OverallTable %&gt;% summarize(mean_cars = mean(`Cars Produced`, 
+    na.rm = T))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   mean_cars
+##       &lt;dbl&gt;
+## 1  1951510.</code></pre>
+<pre class="r"><code>OverallTable %&gt;% summarize(mean_population = mean(population, 
+    na.rm = T))</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   mean_population
+##             &lt;dbl&gt;
+## 1      240084227.</code></pre>
+<ul>
+<li>As I previously stated, the summarize and group_by functions I used above give me more of an understanding for the statistics of my data. When grouped by country China and India had the largest mean populations of 1,107,017,000 people and 880,905,423 people, respectively. China then had also the second highest mean car production per year of 4,230,505 cars, beat only by Germany who produced a mean amount of cars of 4,825,990 cars. India had the highest maximum deaths in a year due to terrorist attacks, 907 deaths. Grouped by year, mean population in countries increases each year from 1970 to 2010.</li>
+</ul>
+</div>
+<div id="visualizing-the-data" class="section level3">
+<h3>Visualizing the Data</h3>
+<pre class="r"><code>library(ggplot2)
+correlationmat &lt;- OverallTable %&gt;% select_if(is.numeric) %&gt;% 
+    cor(use = &quot;pair&quot;)
+tidycorrelations &lt;- correlationmat %&gt;% as.data.frame %&gt;% rownames_to_column(&quot;var1&quot;) %&gt;% 
+    pivot_longer(-1, names_to = &quot;var2&quot;, values_to = &quot;correlation&quot;)
+tidycorrelations</code></pre>
+<pre><code>## # A tibble: 25 x 3
+##    var1       var2             correlation
+##    &lt;chr&gt;      &lt;chr&gt;                  &lt;dbl&gt;
+##  1 Year       Year                   1    
+##  2 Year       population             0.124
+##  3 Year       Cars Produced          0.338
+##  4 Year       Banking Crises         0.221
+##  5 Year       Terrorism Deaths       0.160
+##  6 population Year                   0.124
+##  7 population population             1    
+##  8 population Cars Produced          0.269
+##  9 population Banking Crises        -0.223
+## 10 population Terrorism Deaths       0.505
+## # … with 15 more rows</code></pre>
+<pre class="r"><code>tidycorrelations %&gt;% ggplot(aes(var1, var2, fill = correlation)) + 
+    geom_tile() + scale_fill_gradient2(low = &quot;red&quot;, mid = &quot;white&quot;, 
+    high = &quot;blue&quot;) + geom_text(aes(label = round(correlation, 
+    2)), color = &quot;black&quot;, size = 4) + theme(axis.text.x = element_text(angle = 90, 
+    hjust = 1)) + coord_fixed()</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<ul>
+<li>This correlation heat map that was produced shows the strength of a linear relationship between two numeric variables. The strongest positive correlation is between population and number of deaths resulting from terrorist attacks, with a correlation of 0.51. The second strongest positive correlation is between the year and the number of cars produced in countries, with a correlation of 0.33. The relationship between population and cars produced is also positive, with a correlation of 0.27. As time passes(year increases) there is a positive correlation between it and all other variables. Banking Crises has a negative correlation with all other varibales except year.</li>
+</ul>
+<pre class="r"><code>ggplot(OverallTable, aes(x = population, y = `Cars Produced`, 
+    fill = Country)) + geom_point(aes(color = Country, size = Year)) + 
+    scale_size_continuous(&quot;Year&quot;, range = c(3, 1)) + labs(x = &quot;Population&quot;, 
+    y = &quot;Number of Cars Produced Per Year&quot;, title = &quot;Number of Cars Produced Per Year versus Population&quot;)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" />
+- This graph shows the relationship between the number of cars produced by a country in a specific year and the population of that country in that specific year. There is a trend that suggest that as time has gone by population and the number of cars produced has tended to increase with the smaller dots being seen more to the right and the top of the graph.By giving each country a different color we are able to see the changes that each country has gone through over time by following their individual dots. China had a very large increase in car production compared to any other country.</p>
+<pre class="r"><code>ggplot(OverallTable, aes(Country)) + geom_bar(aes(y = `Terrorism Deaths`, 
+    fill = `Banking Crises`), colour = &quot;black&quot;, stat = &quot;summary&quot;, 
+    fun = mean) + theme(axis.text.y = element_text(angle = 0, 
+    hjust = 1, colour = &quot;blue&quot;, size = 7)) + coord_flip() + labs(y = &quot;Average Yearly Deaths Due to Terrorism&quot;, 
+    x = &quot;Country&quot;, title = &quot;Country versus Average Deaths Due to Terrorism&quot;) + 
+    labs(fill = &quot;Banking Crisis Did Not Occur&quot;)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" />
+- In this graph it is very apparent that India has the largest mean deaths due to terrorism. India has also not experienced a banking crisis in the years being studied. The other countries have much lower mean deaths due to terrorism, Spain has the second highest and they have experienced a banking crisis sometime in the years being studied.</p>
+</div>
+<div id="dimensionality-reduction" class="section level3">
+<h3>Dimensionality Reduction</h3>
+<pre class="r"><code>cluster_data &lt;- OverallTable %&gt;% select(population, `Cars Produced`, 
+    `Terrorism Deaths`)
+library(cluster)
+sil_width &lt;- vector()
+for (i in 2:10) {
+    kms &lt;- kmeans(cluster_data, centers = i)
+    sil &lt;- silhouette(kms$cluster, dist(cluster_data))
+    sil_width[i] &lt;- mean(sil[, 3])
+}
+ggplot() + geom_line(aes(x = 1:10, y = sil_width)) + scale_x_continuous(name = &quot;k&quot;, 
+    breaks = 1:10)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>-I decided to use 2 kmeans to analyze my data because of the results of the silhouette width graph which shows the cohesiveness and separation of the clusters. Therefore the higher the silhouette width is the better, so 2 is chosen to be the number of clusters.</p>
+<pre class="r"><code>kmeans2 &lt;- cluster_data %&gt;% scale %&gt;% kmeans(2)
+kmeans2</code></pre>
+<pre><code>## K-means clustering with 2 clusters of sizes 4, 46
+## 
+## Cluster means:
+##   population Cars Produced Terrorism Deaths
+## 1  2.2156839     1.3505514        2.8433313
+## 2 -0.1926682    -0.1174393       -0.2472462
+## 
+## Clustering vector:
+##  [1] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 2
+## [39] 2 1 2 2 2 2 2 1 2 2 2 1
+## 
+## Within cluster sum of squares by cluster:
+## [1] 41.46402 41.11087
+##  (between_SS / total_SS =  43.8 %)
+## 
+## Available components:
+## 
+## [1] &quot;cluster&quot;      &quot;centers&quot;      &quot;totss&quot;        &quot;withinss&quot;     &quot;tot.withinss&quot;
+## [6] &quot;betweenss&quot;    &quot;size&quot;         &quot;iter&quot;         &quot;ifault&quot;</code></pre>
+<pre class="r"><code>kmeanscluster &lt;- cluster_data %&gt;% mutate(cluster = as.factor(kmeans2$cluster))
+kmeanscluster %&gt;% ggplot(aes(population, `Cars Produced`, `Terrorism Deaths`, 
+    color = cluster)) + geom_point()</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<ul>
+<li>This cluster graph shows a fairly distinct separation between the two clusters although they do seem to be very near in the bottom right corner. There is also a one spot high in the upper corner and that suggests that the data points in the second cluster especially may not be very close together. The first cluster though does have that very concentrated area to the bottom left which suggests it is closer together. There are only 4 observations in cluster 2 which is much fewer than cluster 1 which has 46 observations. This could be because of the one outlier that can be seen in the top right of the graph. This one point would probably have less effect on the clustering if PAM was used(see further down for results of PAM)</li>
+</ul>
+<pre class="r"><code>library(GGally)
+ggpairs(kmeanscluster, columns = 1:3, aes(color = cluster))</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" />
+- This set of graphs allows us to see the correlation between each of the variables with eachother. The highest correlation is the positive correlation that exists between population and number of deaths due to terrorism, 0.505. This means that as population increases so does the number of deaths due to terrorism in a year. There is also a positive correlation between population and cars produced but it it fairly weak, 0.269. Then there is a negative correlation between cars produced and terrorism deaths, -0.034. It is a very weak correlation that suggests that more cars produced is associated with less deaths due to terrorism, again weakly.</p>
+<pre class="r"><code>library(cluster)
+pam2 &lt;- OverallTable %&gt;% select(population, `Cars Produced`, 
+    `Terrorism Deaths`) %&gt;% scale %&gt;% pam(k = 2)
+pam2</code></pre>
+<pre><code>## Medoids:
+##      ID population Cars Produced Terrorism Deaths
+## [1,] 15 -0.5407968    -0.2070881       -0.2769029
+## [2,] 16  1.8599920    -0.6153972       -0.2769029
+## Clustering vector:
+##  [1] 1 1 1 1 1 2 1 1 1 2 1 1 1 1 1 2 1 1 1 2 1 1 1 1 1 2 1 1 1 2 1 1 1 1 1 2 1 1
+## [39] 1 2 1 1 1 1 1 2 1 1 1 2
+## Objective function:
+##     build      swap 
+## 0.8446178 0.8446178 
+## 
+## Available components:
+##  [1] &quot;medoids&quot;    &quot;id.med&quot;     &quot;clustering&quot; &quot;objective&quot;  &quot;isolation&quot; 
+##  [6] &quot;clusinfo&quot;   &quot;silinfo&quot;    &quot;diss&quot;       &quot;call&quot;       &quot;data&quot;</code></pre>
+<pre class="r"><code>pamcluster &lt;- cluster_data %&gt;% mutate(cluster = as.factor(pam2$clustering))
+pamcluster %&gt;% ggplot(aes(population, `Cars Produced`, `Terrorism Deaths`, 
+    color = cluster)) + geom_point()</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pamcluster %&gt;% group_by(cluster) %&gt;% summarize_if(is.numeric, 
+    mean, na.rm = T)</code></pre>
+<pre><code>## # A tibble: 2 x 4
+##   cluster population `Cars Produced` `Terrorism Deaths`
+##   &lt;fct&gt;        &lt;dbl&gt;           &lt;dbl&gt;              &lt;dbl&gt;
+## 1 1        51614980.        1787789.               6.05
+## 2 2       993961211.        2606394              242.</code></pre>
+<pre class="r"><code>plot(pam2, which = 2)</code></pre>
+<p><img src="../../project/project1_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" />
+<em>The PAM(partitioning around medoids) average silhouette width of 0.64 shows us that a reasonable structure has been found meaning a decent goodness of fit. This shows us that in general among my data, certain countries at certain years will form decently correlated clusters based on deaths due to terrorist attacks, population, and car production. These three numeric variables are the numeric variables being analyzed in this PAM test as was done using the select() dplyr function. The graph and the silhouette plot show this reasonable structure visibly. The PAM algorithm is different from the other clustering algorithm because it centers the cluster around medoids which are not as sensitive to outliers like means are. Means are used in the initial clustering graphs and are likely to be less accurate at clustering. Medoids are multidimensional medians and therefore less subject to being thrown off by outliers.</em></p>
+</div>
+
+            
+        <hr>         <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div> 
+            </div>
+          </div>
+
+   <hr>  <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> 
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../../js/docs.min.js"></script>
+<script src="../../js/main.js"></script>
+
+<script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>
