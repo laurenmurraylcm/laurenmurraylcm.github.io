@@ -1,5 +1,5 @@
 ---
-title: My Post
+title: Python and R, Best Friends?  
 author: ''
 date: '2021-05-09'
 slug: my-post
@@ -7,8 +7,31 @@ categories: []
 tags: []
 description: ''
 ---
-here is my post!
+  
+  
+  Professor Woodward has mentioned in class, both in my computational biology class and in my old biology statistics class, that in the real world there tends to be big controversy over which language of coding is better. From my point of view as a college student taking statistics courses, I don't know if I could say which is better. Especially because of how well they are able to actually work together. They even can compliment each other. Python allows you to do some cool things differently than R, and vice-versa. Below I added some code that shows the list splicing function of python. Yet, only R is actually vectorized in lists. 
+
+```{python}
+listlauren=['L','a','A','a','U','g','R','d','E','d','N','h',':)']
+listlauren[::2] #selects for every other variable 
+```
+
+But when I said that the two coding languages can actually compliment each other I wasn't kidding. This is super useful for statistical analysis, all you have to do is download the reticulate package. They can talk to each other, and can even root for the longhorns together!
 
 ```{R}
-summary(iris)
+library(reticulate)
+ut<- "Best"
 ```
+
+```{python}
+ut="Friends!"
+print(r.ut,ut)
+```
+
+```{R}
+cat(c(ut,py$ut)) 
+```
+
+See! This is a direct quote from the languages themselves. They are in fact "Best Friends!"
+
+![](/post/2021-05-09-my-post_files/heart.png)
